@@ -3,10 +3,12 @@ from tkinter import *
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
 
-show_client = False
-show_company = False
-show_obligatory = False
-show_permissive = False
+show_client = True
+show_company = True
+show_obligatory = True
+show_permissive = True
+show_neutral = True
+show_rest = True
 
 def editarelabel1(LL):
 	LL.config(text="INTRODUCETI ALTI TERMENI")
@@ -83,22 +85,161 @@ def separare(s):
 	f.close()
 	
 	
-def toggle_client(s):
+def toggle_client(s,b3):
 	global show_client
 	show_client = not show_client
 	s.delete("0.0",tk.END)
 	f = open("database.txt", "r")
 	sir = f.read()
-	prop = sir.split('.',4)
+	prop = sir.split('.',5)
 	if show_client == True:
-		for i in range(0,5):
-			s.insert(END, prop[i])
+			s.insert(END, prop[0])
 			s.insert(END, " ")
-	else:
-		for i in range(0,5):
-			if i != 0:
-				s.insert(END, prop[i])
-				s.insert(END, " ")
+	if show_company == True:
+			s.insert(END, prop[1])
+			s.insert(END, " ")	
+	if show_obligatory == True:
+			s.insert(END, prop[2])
+			s.insert(END, " ")
+	if show_permissive == True:
+			s.insert(END, prop[3])
+			s.insert(END, " ")
+	if show_neutral == True:
+			s.insert(END, prop[4])
+			s.insert(END, " ")
+	if show_rest == True:
+			s.insert(END, prop[5])
+			s.insert(END, " ")		
+				
+def toggle_company(s,b4):
+	global show_company
+	show_company = not show_company
+	s.delete("0.0",tk.END)
+	f = open("database.txt", "r")
+	sir = f.read()
+	prop = sir.split('.',5)
+	if show_client == True:
+			s.insert(END, prop[0])
+			s.insert(END, " ")
+	if show_company == True:
+			s.insert(END, prop[1])
+			s.insert(END, " ")	
+	if show_obligatory == True:
+			s.insert(END, prop[2])
+			s.insert(END, " ")
+	if show_permissive == True:
+			s.insert(END, prop[3])
+			s.insert(END, " ")
+	if show_neutral == True:
+			s.insert(END, prop[4])
+			s.insert(END, " ")
+	if show_rest == True:
+			s.insert(END, prop[5])
+			s.insert(END, " ")		
+
+def toggle_obligatory(s,b5):
+	global show_obligatory
+	show_obligatory = not show_obligatory
+	s.delete("0.0",tk.END)
+	f = open("database.txt", "r")
+	sir = f.read()
+	prop = sir.split('.',5)
+	if show_client == True:
+			s.insert(END, prop[0])
+			s.insert(END, " ")
+	if show_company == True:
+			s.insert(END, prop[1])
+			s.insert(END, " ")	
+	if show_obligatory == True:
+			s.insert(END, prop[2])
+			s.insert(END, " ")
+	if show_permissive == True:
+			s.insert(END, prop[3])
+			s.insert(END, " ")
+	if show_neutral == True:
+			s.insert(END, prop[4])
+			s.insert(END, " ")
+	if show_rest == True:
+			s.insert(END, prop[5])
+			s.insert(END, " ")	
+
+def toggle_permissive(s,b6):
+	global show_permissive
+	show_permissive = not show_permissive
+	s.delete("0.0",tk.END)
+	f = open("database.txt", "r")
+	sir = f.read()
+	prop = sir.split('.',5)
+	if show_client == True:
+			s.insert(END, prop[0])
+			s.insert(END, " ")
+	if show_company == True:
+			s.insert(END, prop[1])
+			s.insert(END, " ")	
+	if show_obligatory == True:
+			s.insert(END, prop[2])
+			s.insert(END, " ")
+	if show_permissive == True:
+			s.insert(END, prop[3])
+			s.insert(END, " ")
+	if show_neutral == True:
+			s.insert(END, prop[4])
+			s.insert(END, " ")
+	if show_rest == True:
+			s.insert(END, prop[5])
+			s.insert(END, " ")		
+
+def toggle_neutral(s,b7):
+	global show_neutral
+	show_neutral = not show_neutral
+	s.delete("0.0",tk.END)
+	f = open("database.txt", "r")
+	sir = f.read()
+	prop = sir.split('.',5)
+	if show_client == True:
+			s.insert(END, prop[0])
+			s.insert(END, " ")
+	if show_company == True:
+			s.insert(END, prop[1])
+			s.insert(END, " ")	
+	if show_obligatory == True:
+			s.insert(END, prop[2])
+			s.insert(END, " ")
+	if show_permissive == True:
+			s.insert(END, prop[3])
+			s.insert(END, " ")
+	if show_neutral == True:
+			s.insert(END, prop[4])
+			s.insert(END, " ")
+	if show_rest == True:
+			s.insert(END, prop[5])
+			s.insert(END, " ")		
+
+def toggle_rest(s,b8):
+	global show_rest
+	show_rest = not show_rest
+	s.delete("0.0",tk.END)
+	f = open("database.txt", "r")
+	sir = f.read()
+	prop = sir.split('.',5)
+	if show_client == True:
+			s.insert(END, prop[0])
+			s.insert(END, " ")
+	if show_company == True:
+			s.insert(END, prop[1])
+			s.insert(END, " ")	
+	if show_obligatory == True:
+			s.insert(END, prop[2])
+			s.insert(END, " ")
+	if show_permissive == True:
+			s.insert(END, prop[3])
+			s.insert(END, " ")
+	if show_neutral == True:
+			s.insert(END, prop[4])
+			s.insert(END, " ")
+	if show_rest == True:
+			s.insert(END, prop[5])
+			s.insert(END, " ")				
 	
 def ecran():
 	mainwin = Tk()
@@ -134,10 +275,31 @@ def ecran():
 	e1.pack()
 	b9 = Button(command=lambda: gasire(e1,s), text="FIND",activebackground="grey",bg="white",bd=5,padx=20)
 	b9.pack()
-	var = tk.StringVar()
-	b3 = tk.Checkbutton(width=6,indicatoron=True,variable=var, textvariable=var, selectcolor="grey", background="white",onvalue="Client", offvalue="Client",command=lambda: show_client(s))
+	var3 = tk.StringVar()
+	var3 = "Client"
+	var4 = tk.StringVar()
+	var4 = "Company"
+	var5 = tk.StringVar()
+	var5 = "Obligatory"
+	var6 = tk.StringVar()
+	var6 = "Permissive"
+	var7 = tk.StringVar()
+	var7 = "Neutral"
+	var8 = tk.StringVar()
+	var8 = "Rest"
+	b3 = tk.Checkbutton(width=8,height=5,variable=var3, textvariable=var3,indicatoron=True, selectcolor="grey", background="white",onvalue="Client", offvalue="Client",command=lambda: toggle_client(s,b3))
+	b4 = tk.Checkbutton(width=8,height=5,variable=var4, textvariable=var4,indicatoron=True, selectcolor="grey", background="white",onvalue="Company", offvalue="Company",command=lambda: toggle_company(s,b4))
+	b5 = tk.Checkbutton(width=8,height=5,variable=var5, textvariable=var5,indicatoron=True, selectcolor="grey", background="white",onvalue="Obligatory", offvalue="Obligatory",command=lambda: toggle_obligatory(s,b5))
+	b6 = tk.Checkbutton(width=8,height=5,variable=var6, textvariable=var6,indicatoron=True, selectcolor="grey", background="white",onvalue="Permissive", offvalue="Permissive",command=lambda: toggle_permissive(s,b6))
+	b7 = tk.Checkbutton(width=8,height=5,variable=var7, textvariable=var7,indicatoron=True, selectcolor="grey", background="white",onvalue="Neutral", offvalue="Neutral",command=lambda: toggle_neutral(s,b7))
+	b8 = tk.Checkbutton(width=8,height=5,variable=var8, textvariable=var8,indicatoron=True, selectcolor="grey", background="white",onvalue="Rest", offvalue="Rest",command=lambda: toggle_rest(s,b8))
+	b8.pack(side=RIGHT)
+	b7.pack(side=RIGHT)
+	b6.pack(side=RIGHT)
+	b5.pack(side=RIGHT)
+	b4.pack(side=RIGHT)
 	b3.pack(side=RIGHT)
-	b3.toggle()
+	
 	mainwin.mainloop()
  
 if __name__ == "__main__":
