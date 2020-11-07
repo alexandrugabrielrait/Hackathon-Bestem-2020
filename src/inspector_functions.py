@@ -1,16 +1,8 @@
 import spacy
-from enum import Enum
-
 try:
     from src.reader import *
 except:
     from reader import *
-
-class PredicateType(Enum):
-    OBLIGATORY = -1
-    NEUTRAL = 0
-    PERMISSIVE = 1
-
 
 def show_sentence(sentence, ptype):
     if ptype == PredicateType.OBLIGATORY:
@@ -20,11 +12,41 @@ def show_sentence(sentence, ptype):
     else:
         print("Boring: " + sentence)
 
-
 def is_synonym(word, keywords):
     word = str(word.orth_).lower()
     return word in keywords
 
+def find_type_id(parsed_text, type_name):
+    for i in range(parsed_text.__len__()):
+        if parsed_text[i].dep_ == type_name:
+            return i
+    return -1
+
+def find_subject_id(parsed_text):
+    return find_type_id(parsed_text, "nsubj")
+
+def find_subject(parsed_text):
+    id = find_subject_id(parsed_text)
+    if id == -1:
+        return None
+    return parsed_text[id]
+
+def get_subject_type(parsed_text):
+    subject = find_subject(parsed_text)
+    if is_synonym(subject, client_synonyms):
+        return SubjectType.CLIENT
+    if is_synonym(subject, get_company_synonyms()):
+        return SubjectType.COMPANY
+    return SubjectType.REST
+
+def find_predicate_id(parsed_text):
+    return find_type_id(parsed_text, "ROOT")
+
+def find_predicate(parsed_text):
+    id = find_predicate_id(parsed_text)
+    if id == -1:
+        return None
+    return parsed_text[id]
 
 def is_keyword(parsed_text, index, keywords):
     word = str(parsed_text[index].orth_).lower()
@@ -34,6 +56,13 @@ def is_keyword(parsed_text, index, keywords):
             if str(parsed_text[index + 1 + i].orth_).lower() != line[i]:
                 return False
         return True
+    return False
+
+def check_negation(parsed_text, index, direction):
+    if parsed_text[index].dep_ == "neg":
+        return True
+    elif direction != 0 and index + direction >= 0 and index + direction < parsed_text.__len__():
+        return check_negation(parsed_text, index + direction, direction)
     return False
 
 
@@ -60,14 +89,6 @@ def get_predicate_type(parsed_text):
     return get_predicate_type_indexed(parsed_text, id)
 
 
-def check_negation(parsed_text, index, direction):
-    if parsed_text[index].dep_ == "neg":
-        return True
-    elif direction != 0 and index + direction >= 0 and index + direction < parsed_text.__len__():
-        return check_negation(parsed_text, index + direction, direction)
-    return False
-
-
 '''
 def find_triplet(parsed_text):
     subject = ""
@@ -86,32 +107,3 @@ def find_triplet(parsed_text):
             direct_object = text.orth_
     return (subject, indirect_object, direct_object)
 '''
-
-
-def find_type_id(parsed_text, type_name):
-    for i in range(parsed_text.__len__()):
-        if parsed_text[i].dep_ == type_name:
-            return i
-    return -1
-
-
-def find_subject_id(parsed_text):
-    return find_type_id(parsed_text, "nsubj")
-
-
-def find_subject(parsed_text):
-    id = find_subject_id(parsed_text)
-    if id == -1:
-        return None
-    return parsed_text[id]
-
-
-def find_predicate_id(parsed_text):
-    return find_type_id(parsed_text, "ROOT")
-
-
-def find_predicate(parsed_text):
-    id = find_predicate_id(parsed_text)
-    if id == -1:
-        return None
-    return parsed_text[id]

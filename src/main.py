@@ -4,10 +4,12 @@ from tkinter import *
 try:
     import src.string_functions
     import src.reader
+    from src.definitions import SubjectType, PredicateType
     from src.inspector_functions import *
 except:
     import string_functions
     import reader
+    from definitions import SubjectType, PredicateType
     from inspector_functions import *
 
 def main():
@@ -28,6 +30,8 @@ def main():
     nlp = spacy.load('en')
 
     reader.company_name = "Apple".lower()
+    sets_by_subject = [set() for i in range(len(SubjectType))]
+    sets_by_predicate = [set() for i in range(len(PredicateType))]
 
     for sentence in sentences:
         parsed_text = nlp(string_functions.simplify(sentence))
@@ -35,11 +39,15 @@ def main():
         '''for i in parsed_text:
         print(str(i) + " " + str(i.dep_))
         print(parsed_text)'''
-        subject = find_subject(parsed_text)
-        if subject != None and is_synonym(subject, reader.client_synonyms):
+        sets_by_subject[int(get_subject_type(parsed_text).value)].add(sentence)
+        sets_by_predicate[int(get_predicate_type(parsed_text).value)].add(sentence)
+        """ if subject != None and is_synonym(subject, reader.client_synonyms):
             show_sentence(sentence, get_predicate_type(parsed_text))
         if subject != None and is_synonym(subject, reader.get_company_synonyms()):
-            print("BOO!" + sentence, get_predicate_type(parsed_text))
+            print("BOO!" + sentence, get_predicate_type(parsed_text)) """
+    
+    print(sets_by_subject)
+    print(sets_by_predicate)
 
 if __name__ == "__main__":
     main()
