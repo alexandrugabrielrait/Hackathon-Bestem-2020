@@ -1,6 +1,7 @@
 import numpy
 import nltk
 import spacy
+import simplify_functions
 from inspector_functions import *
 from tkinter import *
 
@@ -9,7 +10,7 @@ def main_test():
     print("hi2")
     file_input = open("input.txt", "r")
     sentences = []
-    for line in file_input.readlines():
+    for line in file_input.read().splitlines():
         sentences.extend(nltk.sent_tokenize(line))
     print(sentences)
     tokens = nltk.word_tokenize(sentences[0])
@@ -21,7 +22,7 @@ def main_test():
     nlp = spacy.load('en')
 
     for sentence in sentences:
-        parsed_text = nlp(sentence)
+        parsed_text = nlp(simplify_functions.simplify(sentence))
         '''for i in parsed_text:
         print(str(i) + " " + str(i.dep_))
         print(parsed_text)'''
