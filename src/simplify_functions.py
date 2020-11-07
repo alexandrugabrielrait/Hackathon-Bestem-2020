@@ -1,18 +1,5 @@
 import re
-
-
-"""
-    Reads the replacement keywords from a file
-"""
-def replacement_reader(file_name):
-    line_set = set()
-    file_in = open(file_name, "r")
-    for line in file_in.read().splitlines():
-        print(tuple(line.split("=", 2)))
-        line_set.add(tuple(line.split("=", 2)))
-    return line_set
-
-replacements = replacement_reader("keywords/replacements.txt")
+from reader import replacements
 
 """
     Simplifies the input sentences by merging compound words and names.
@@ -26,11 +13,16 @@ def simplify(sentence):
     i = 0
     while i < n:
         new_words.append(words[i])
-        if i != 0 and words[i][0].isupper():
+        if i != 0 and words[i][0].isupper() and not words[i].isupper():
             for j in range(i + 1, n - 1):
-                if words[j][0].isupper():
+                if words[j][0].isupper() and not words[j].isupper():
                     new_words[-1] += words[j]
-            i = j
+                    found = True
+                else:
+                    found = False
+                    break
+            if found:
+                i = j
         i += 1
     sentence = ' '.join(word for word in new_words)
     print(sentence)

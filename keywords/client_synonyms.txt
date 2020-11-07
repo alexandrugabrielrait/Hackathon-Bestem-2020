@@ -5,3 +5,4 @@ user
 buyer
 purchaser
 enjoyer
+licensor

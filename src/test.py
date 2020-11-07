@@ -2,6 +2,7 @@ import numpy
 import nltk
 import spacy
 import simplify_functions
+import reader
 from inspector_functions import *
 from tkinter import *
 
@@ -23,10 +24,12 @@ def main_test():
 
     for sentence in sentences:
         parsed_text = nlp(simplify_functions.simplify(sentence))
+        print(nltk.pos_tag(nltk.word_tokenize(simplify_functions.simplify(sentence))))
         '''for i in parsed_text:
         print(str(i) + " " + str(i.dep_))
         print(parsed_text)'''
-        if is_synonym(find_subject(parsed_text), client_synonyms):
+        subject = find_subject(parsed_text)
+        if subject != None and is_synonym(find_subject, reader.client_synonyms):
             show_sentence(sentence, get_predicate_type(parsed_text))
 
 if __name__ == "__main__":

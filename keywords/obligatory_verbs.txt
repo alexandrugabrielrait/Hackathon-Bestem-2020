@@ -1,3 +1,8 @@
 have to
 has to
-need
+need to
+needs to
+agree
+agrees
+comply
+complies
