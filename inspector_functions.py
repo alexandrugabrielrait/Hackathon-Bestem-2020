@@ -28,6 +28,14 @@ permissive_verbs = multi_reader("keywords/permissive_verbs.txt")
 obligatory_verbs = multi_reader("keywords/obligatory_verbs.txt")
 obligatory_verbs_constant = multi_reader("keywords/obligatory_verbs_constant.txt")
 
+def show_sentence(sentence, ptype):
+    if ptype == PredicateType.OBLIGATORY:
+        print("Warning: " + sentence)
+    elif ptype == PredicateType.PERMISSIVE:
+        print("Good News!: " + sentence)
+    else:
+        print("Boring: " + sentence)
+
 def is_synonym(word, keywords):
     word = str(word.orth_).lower()
     return word in keywords
@@ -62,10 +70,10 @@ def get_predicate_type(sentence):
 def check_negation(sentence, index, direction):
     if sentence[index].dep_ == "neg":
         return True
-    elif direction != 0 and index + direction >= 0:
+    elif direction != 0 and index + direction >= 0 and index + direction < sentence.__len__():
         return check_negation(sentence, index - direction, direction)
     return False
-
+'''
 def find_triplet(parsed_text):
     subject = ""
     indirect_object = ""
@@ -82,6 +90,7 @@ def find_triplet(parsed_text):
         if text.dep_ == "dobj":
             direct_object = text.orth_
     return (subject, indirect_object, direct_object)
+'''
 
 def find_type_id(parsed_text, type_name):
     for i in range(parsed_text.__len__()):

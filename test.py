@@ -23,13 +23,7 @@ for sentence in sentences:
         print(str(i) + " " + str(i.dep_))
     print(parsed_text)'''
     if is_synonym(find_subject(parsed_text), client_synonyms):
-        ptype = get_predicate_type(parsed_text)
-        if ptype == PredicateType.OBLIGATORY:
-            print("Warning: " + sentence)
-        elif ptype == PredicateType.PERMISSIVE:
-            print("Good News!: " + sentence)
-        else:
-            print("Boring: " + sentence)
+        show_sentence(sentence, get_predicate_type(parsed_text))
 
 #x = Tk()
 
