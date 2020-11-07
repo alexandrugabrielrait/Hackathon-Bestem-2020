@@ -6,7 +6,6 @@ import reader
 from inspector_functions import *
 from tkinter import *
 
-
 def main_test():
     print("hi2")
     file_input = open("input.txt", "r")
@@ -22,6 +21,8 @@ def main_test():
     print(entities)
     nlp = spacy.load('en')
 
+    reader.company_name = "Apple".lower()
+
     for sentence in sentences:
         parsed_text = nlp(simplify_functions.simplify(sentence))
         print(nltk.pos_tag(nltk.word_tokenize(simplify_functions.simplify(sentence))))
@@ -29,8 +30,10 @@ def main_test():
         print(str(i) + " " + str(i.dep_))
         print(parsed_text)'''
         subject = find_subject(parsed_text)
-        if subject != None and is_synonym(find_subject, reader.client_synonyms):
+        if subject != None and is_synonym(subject, reader.client_synonyms):
             show_sentence(sentence, get_predicate_type(parsed_text))
+        if subject != None and is_synonym(subject, reader.get_company_synonyms()):
+            print("BOO!" + sentence, get_predicate_type(parsed_text))
 
 if __name__ == "__main__":
     main_test()

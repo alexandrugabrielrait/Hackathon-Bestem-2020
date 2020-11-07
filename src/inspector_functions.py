@@ -24,10 +24,11 @@ def is_synonym(word, keywords):
 
 
 def is_keyword(parsed_text, index, keywords):
-    if parsed_text[index].orth_ in keywords:
-        line = keywords[parsed_text[index].orth_]
+    word = str(parsed_text[index].orth_).lower()
+    if word in keywords:
+        line = keywords[word]
         for i in range(line.__len__()):
-            if parsed_text[index + 1 + i].orth_ != line[i]:
+            if str(parsed_text[index + 1 + i].orth_).lower() != line[i]:
                 return False
         return True
     return False

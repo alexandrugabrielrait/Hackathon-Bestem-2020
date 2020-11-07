@@ -6,3 +6,7 @@ agree
 agrees
 comply
 complies
+permit
+permits
+allow
+allows

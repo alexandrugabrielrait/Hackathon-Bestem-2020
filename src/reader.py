@@ -34,3 +34,11 @@ permissive_verbs = multi_reader(PERMISSIVE_VERBS)
 obligatory_verbs = multi_reader(OBLIGATORY_VERBS)
 obligatory_verbs_constant = multi_reader(OBLIGATORY_VERBS_CONST)
 replacements = replacement_reader(REPLACEMENTS)
+
+company_name = ""
+
+def get_company_synonyms():
+    print(company_synonyms.union({company_name}))
+    if company_name != "":
+        return company_synonyms.union({company_name})
+    return company_synonyms
