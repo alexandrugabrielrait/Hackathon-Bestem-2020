@@ -1,4 +1,7 @@
-from file_names import *
+try:
+    from src.file_names import *
+except:
+    from file_names import *
 
 def single_reader(file_name):
     line_set = set()

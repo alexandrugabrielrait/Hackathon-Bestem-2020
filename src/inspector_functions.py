@@ -1,7 +1,10 @@
 import spacy
 from enum import Enum
 
-from reader import *
+try:
+    from src.reader import *
+except:
+    from reader import *
 
 class PredicateType(Enum):
     OBLIGATORY = -1
