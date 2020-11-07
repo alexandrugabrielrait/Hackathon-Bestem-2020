@@ -1,3 +1,5 @@
-The user has to comply. The company doesn't have to comply.
-We're here for you. You must drink poison everyday.
-The customer may drink beer.
+A cookie is a small piece of text that allows a website to recognize your device and maintain a consistent, cohesive experience throughout multiple sessions. If you use the Stack Overflow Network, both Stack Overflow and third parties will use cookies to track and monitor some of your activities on and off the Stack Overflow Network, and store and access some data about you, your browsing history, and your usage of the Stack Overflow Network.
+
+This policy describes how both Stack Overflow and other third parties use cookies both within and without the Stack Overflow Network and how you can exercise a greater degree of control over cookies. Please keep in mind that this may alter your experience with our platform, and may limit certain features (including being logged in as a user).
+
+General Browsing: We use cookies that are important for certain technical features of our website, like logging into user accounts and implementing fixes and improvements to our platform.

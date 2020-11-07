@@ -22,12 +22,11 @@ def main_test():
 
     for sentence in sentences:
         parsed_text = nlp(sentence)
-    '''for i in parsed_text:
+        '''for i in parsed_text:
         print(str(i) + " " + str(i.dep_))
-    print(parsed_text)'''
-    if is_synonym(find_subject(parsed_text), client_synonyms):
-        show_sentence(sentence, get_predicate_type(parsed_text))
-
+        print(parsed_text)'''
+        if is_synonym(find_subject(parsed_text), client_synonyms):
+            show_sentence(sentence, get_predicate_type(parsed_text))
 
 if __name__ == "__main__":
     main_test()

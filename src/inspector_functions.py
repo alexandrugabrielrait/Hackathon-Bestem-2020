@@ -53,11 +53,11 @@ def get_predicate_type_indexed(sentence, index):
     if is_keyword(sentence, index, obligatory_verbs_constant):
         return PredicateType.OBLIGATORY
     elif is_keyword(sentence, index, obligatory_verbs):
-        if check_negation(sentence, index - 1, -1):
+        if index > 0 and check_negation(sentence, index - 1, -1):
             return PredicateType.PERMISSIVE
         return PredicateType.OBLIGATORY
     elif is_keyword(sentence, index, permissive_verbs):
-        if check_negation(sentence, index + 1, 0):
+        if index < sentence.__len__() - 1 and check_negation(sentence, index + 1, 0):
             return PredicateType.OBLIGATORY
         return PredicateType.PERMISSIVE  
     elif index > 0: 
@@ -71,7 +71,7 @@ def check_negation(sentence, index, direction):
     if sentence[index].dep_ == "neg":
         return True
     elif direction != 0 and index + direction >= 0 and index + direction < sentence.__len__():
-        return check_negation(sentence, index - direction, direction)
+        return check_negation(sentence, index + direction, direction)
     return False
 '''
 def find_triplet(parsed_text):
