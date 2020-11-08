@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import *
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
+from string_functions import utf8_to_ascii
+from pseudo_data_functions import *
 
 show_client = True
 show_company = True
@@ -9,7 +11,22 @@ show_obligatory = True
 show_permissive = True
 show_neutral = True
 show_rest = True
+show_definitions = True
+input_mode = True
+save = ""
 
+def toggle_input_mode(s):
+	global input_mode, save
+	input_mode = not input_mode
+	print(input_mode)
+	if not input_mode:
+		s.bind("<1>", lambda event: s.focus_set())
+		save = s.get('0.0', 'end-1c')
+		show_sets(s)
+	else:
+		s.delete("0.0",tk.END)
+		s.insert(INSERT, save)
+		
 def editarelabel1(LL):
 	LL.config(text="INTRODUCETI ALTI TERMENI")
 
@@ -112,30 +129,20 @@ def toggle_rest(s):
 	show_rest = not show_rest
 	show_sets(s)
 
+def toggle_definitions(s):
+	global show_definitions
+	show_definitions = not show_definitions
+	show_sets(s)
+	
 def show_sets(s):
-	print("xy",show_client,show_company)
 	s.delete("0.0",tk.END)
-	f = open("database.txt", "r")
-	sir = f.read()
-	prop = sir.split('.',5)
-	if show_client == True:
-			s.insert(END, prop[0])
-			s.insert(END, ".")
-	if show_company == True:
-			s.insert(END, prop[1])
-			s.insert(END, ".")
-	if show_rest == True:
-			s.insert(END, prop[2])
-			s.insert(END, ".")
-	if show_permissive == True:
-			s.insert(END, prop[3])
-			s.insert(END, ".")
-	if show_neutral == True:
-			s.insert(END, prop[4])
-			s.insert(END, ".")
-	if show_obligatory == True:
-			s.insert(END, prop[5])
-			s.insert(END, ".")	
+	sentences = find_sentences(utf8_to_ascii(save))
+	for sentence in find_showable_list([show_client,show_company, show_rest, show_permissive, show_neutral, show_obligatory], sentences):
+		s.insert(END, sentence+"\n")	
+	if show_definitions:
+		s.insert(END,"\nThe following definitions have been found:\n")
+		for definition in find_definitions(utf8_to_ascii(save)):
+			s.insert(END, '"'+definition+'"\n')
 	
 def ecran():
 	mainwin = Tk()
@@ -177,6 +184,12 @@ def ecran():
 	b6.toggle()
 	b7.toggle()
 	b8.toggle()
+	
+	b10 = tk.Checkbutton(width=15,onvalue="Edit",offvalue="Filter",indicatoron=False, selectcolor="grey", background="white",command=lambda: toggle_input_mode(s))
+	b10.place(x=835,y=725)
+	
+	b11 = tk.Checkbutton(width=15,text="Show Definitions",indicatoron=True, selectcolor="grey", background="white",command=lambda: toggle_definitions(s))
+	b11.place(x=580,y=725)
 	mainwin.mainloop()
  
 if __name__ == "__main__":

@@ -1,16 +1,10 @@
 import nltk
 try:
-    import src.sentence_functions
     import src.reader
     from src.definitions import SubjectType, PredicateType
-    from src.sentence_functions import *
 except:
-    import sentence_functions
     import reader
     from definitions import SubjectType, PredicateType
-    from sentence_functions import *
-
-nlp = spacy.load('en')
 
 def set_company_name(name):
     reader.company_name = name.lower()
