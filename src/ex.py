@@ -2,8 +2,12 @@ import tkinter as tk
 from tkinter import *
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
-from string_functions import utf8_to_ascii
-from pseudo_data_functions import *
+try:
+    from src.string_functions import utf8_to_ascii
+    from src.data_functions import *
+except:
+    from string_functions import utf8_to_ascii
+    from data_functions import *
 from tkinter import messagebox as MessageBox
 
 show_client = True
@@ -12,20 +16,24 @@ show_obligatory = True
 show_permissive = True
 show_neutral = True
 show_rest = True
-show_definitions = True
+show_definitions = False
+show_statistics = False
 input_mode = True
 save = ""
+text_input = "Input EULA here"
+text_result = "Results"
 
-
-def toggle_input_mode(s):
+def toggle_input_mode(s, e, L):
     global input_mode, save
     input_mode = not input_mode
     print(input_mode)
     if not input_mode:
+        L.config(text = text_result)
         s.bind("<1>", lambda event: s.focus_set())
         save = s.get('0.0', 'end-1c')
-        show_sets(s)
+        print_info(s, e)
     else:
+        L.config(text = text_input)
         s.delete("0.0", tk.END)
         s.insert(INSERT, save)
 
@@ -146,84 +154,87 @@ def gasire(e1, s):
     s.tag_config('da', foreground='red')
 
 
-def separare(s):
-    sir = s.get('0.0', 'end-1c')
-    f = open("database.txt", "w")
-    f.write(sir)
-    f.close()
-
+def clear(s, e, L):
+    s.delete("0.0", tk.END)
+    save = ""
 
 def toggle_client(s):
     global show_client
     show_client = not show_client
-    show_sets(s)
 
 
 def toggle_company(s):
     global show_company
     show_company = not show_company
-    show_sets(s)
 
 
 def toggle_obligatory(s):
     global show_obligatory
     show_obligatory = not show_obligatory
-    show_sets(s)
 
 
 def toggle_permissive(s):
     global show_permissive
     show_permissive = not show_permissive
-    show_sets(s)
 
 
 def toggle_neutral(s):
     global show_neutral
     show_neutral = not show_neutral
-    show_sets(s)
 
 
 def toggle_rest(s):
     global show_rest
     show_rest = not show_rest
-    show_sets(s)
 
 
 def toggle_definitions(s):
     global show_definitions
     show_definitions = not show_definitions
-    show_sets(s)
 
 
-def show_sets(s):
+def toggle_statistics(s):
+    global show_statistics
+    show_statistics = not show_statistics
+
+
+def print_info(s, e):
+    set_company_name(e.get().lower())
+    if (input_mode):
+        return
     s.delete("0.0", tk.END)
-    sentences = find_sentences(utf8_to_ascii(save))
-    for sentence in find_showable_list(
-            [show_client, show_company, show_rest, show_permissive, show_neutral, show_obligatory], sentences):
-        s.insert(END, sentence + "\n")
     if show_definitions:
-        s.insert(END, "\nThe following definitions have been found:\n")
+        s.insert(END, "The following definitions have been found:\n")
         for definition in find_definitions(utf8_to_ascii(save)):
             s.insert(END, '"' + definition + '"\n')
-
+    elif show_statistics:
+        s.insert(END, "Most reccuring words:\n")
+        for definition in find_definitions(utf8_to_ascii(save)):
+            s.insert(END, '"' + definition + '"\n')
+    else:
+        sentences = find_sentences(utf8_to_ascii(save))
+        for sentence in find_showable_list([show_client, show_company, show_rest, show_permissive, show_neutral, show_obligatory], sentences):
+            s.insert(END, sentence + "\n")
 
 def ecran():
     mainwin = Tk()
     mainwin.geometry("1920x1080")
 
-    L1 = Label(mainwin, text="Introduceti textul aici", font=("Helvetica", 16))
+    L1 = Label(mainwin, text=text_input, font=("Helvetica", 16))
     L1.pack()
 
     s = ScrolledText(mainwin, width=185, height=20)
     s.pack()
 
-    L2 = Label(mainwin, text="Introduceti textul aici", font=("Helvetica", 12))
+    L2 = Label(mainwin, text="Type word to find in text:", font=("Helvetica", 12))
     L2.pack(anchor="n")
     e1 = Entry(mainwin, width=30)
     e1.pack(anchor="n")
-    b1 = Button(command=lambda: [editare1(s), editarelabel1(L1), separare(s)], text="Delete", activebackground="white",
-                bg="grey", bd=5, padx=20)
-    b2 = Button(command=lambda: [editare2(s), editarelabel2(L1), separare(s)], text="Editare", activebackground="white",
+    L3 = Label(mainwin, text="Type in company name:", font=("Helvetica", 12))
+    L3.pack(anchor="n")
+    e2 = Entry(mainwin, width=30)
+    e2.pack(anchor="n")
+    b1 = Button(command=lambda: clear(s, e2, L1), text="Clear", activebackground="white",
                 bg="grey", bd=5, padx=20)
     b3 = tk.Checkbutton(width=15, text="Client", indicatoron=True, selectcolor="grey", background="white",
                         command=lambda: toggle_client(s))
@@ -238,10 +249,10 @@ def ecran():
     b8 = tk.Checkbutton(width=15, text="Obligatory", indicatoron=True, selectcolor="grey", background="white",
                         command=lambda: toggle_obligatory(s))
     b1.place(x=30, y=700)
-    b2.place(x=130, y=700)
 
     b9 = Button(mainwin, command=lambda: search_words(e1, s), text="FIND", activebackground="grey", bg="white", bd=5,
                 padx=20)
+
     b9.place(x=735, y=725)
     b5.place(x=1300, y=700)
     b4.place(x=1150, y=700)
@@ -257,13 +268,23 @@ def ecran():
     b7.toggle()
     b8.toggle()
 
-    b10 = tk.Checkbutton(width=15, onvalue="Edit", offvalue="Filter", indicatoron=False, selectcolor="grey",
-                         background="white", command=lambda: toggle_input_mode(s))
+    b10 = tk.Checkbutton(width=15, text="Edit/Results", indicatoron=False, selectcolor="lightblue",
+                         background="white", command=lambda: toggle_input_mode(s, e2, L1))
     b10.place(x=835, y=725)
 
-    b11 = tk.Checkbutton(width=15, text="Show Definitions", indicatoron=True, selectcolor="grey", background="white",
+    b11 = tk.Checkbutton(width=15, text="Show Definitions", indicatoron=False, selectcolor="lightblue", background="white",
                          command=lambda: toggle_definitions(s))
     b11.place(x=580, y=725)
+
+    b11 = tk.Checkbutton(width=15, text="Show Statistics", indicatoron=False, selectcolor="lightblue", background="white",
+                         command=lambda: toggle_statistics(s))
+    b11.place(x=580, y=825)
+
+
+    b12 = Button(mainwin, command=lambda: print_info(s, e2), text="FILTER", activebackground="grey", bg="white", bd=5,
+                padx=20)
+    b12.place(x=735, y=825)
+
     mainwin.mainloop()
 
 

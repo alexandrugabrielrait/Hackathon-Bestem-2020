@@ -1,8 +1,3 @@
-try:
-    from src.reader import replacements
-except:
-    from reader import replacements
-
 transl_table = dict( [ (ord(x), ord(y)) for x,y in zip( u"‘’´“”–-",  u"'''\"\"--") ] )
 
 '''
