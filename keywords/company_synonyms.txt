@@ -10,3 +10,4 @@ enterprise
 association
 organization
 organisation
+licensor
