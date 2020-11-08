@@ -223,14 +223,14 @@ def ecran():
     L1 = Label(mainwin, text=text_input, font=("Helvetica", 16))
     L1.pack()
 
-    s = ScrolledText(mainwin, width=185, height=20)
+    s = ScrolledText(mainwin, width=185, height=40)
     s.pack()
 
     L2 = Label(mainwin, text="Type word to find in text:", font=("Helvetica", 12))
     L2.pack(anchor="n")
     e1 = Entry(mainwin, width=30)
     e1.pack(anchor="n")
-    L3 = Label(mainwin, text="Type in company name:", font=("Helvetica", 12))
+    L3 = Label(mainwin, text="Type company name:", font=("Helvetica", 12))
     L3.pack(anchor="n")
     e2 = Entry(mainwin, width=30)
     e2.pack(anchor="n")
@@ -248,18 +248,9 @@ def ecran():
                         command=lambda: toggle_neutral(s))
     b8 = tk.Checkbutton(width=15, text="Obligatory", indicatoron=True, selectcolor="grey", background="white",
                         command=lambda: toggle_obligatory(s))
-    b1.place(x=30, y=700)
 
     b9 = Button(mainwin, command=lambda: search_words(e1, s), text="FIND", activebackground="grey", bg="white", bd=5,
                 padx=20)
-
-    b9.place(x=735, y=725)
-    b5.place(x=1300, y=700)
-    b4.place(x=1150, y=700)
-    b3.place(x=1000, y=700)
-    b8.place(x=1300, y=750)
-    b7.place(x=1150, y=750)
-    b6.place(x=1000, y=750)
 
     b3.toggle()
     b4.toggle()
@@ -270,20 +261,34 @@ def ecran():
 
     b10 = tk.Checkbutton(width=15, text="Edit/Results", indicatoron=False, selectcolor="lightblue",
                          background="white", command=lambda: toggle_input_mode(s, e2, L1))
-    b10.place(x=835, y=725)
-
     b11 = tk.Checkbutton(width=15, text="Show Definitions", indicatoron=False, selectcolor="lightblue", background="white",
                          command=lambda: toggle_definitions(s))
-    b11.place(x=580, y=725)
 
-    b11 = tk.Checkbutton(width=15, text="Show Statistics", indicatoron=False, selectcolor="lightblue", background="white",
+    b12 = tk.Checkbutton(width=15, text="Show Statistics", indicatoron=False, selectcolor="lightblue", background="white",
                          command=lambda: toggle_statistics(s))
-    b11.place(x=580, y=825)
 
-
-    b12 = Button(mainwin, command=lambda: print_info(s, e2), text="FILTER", activebackground="grey", bg="white", bd=5,
+    b13 = Button(mainwin, command=lambda: print_info(s, e2), text="FILTER", activebackground="grey", bg="white", bd=5,
                 padx=20)
-    b12.place(x=735, y=825)
+
+    top = 690
+    middle = 735
+    bottom = 780
+    x0 = 1100
+    x1 = x0 + 150
+    x2 = x1 + 150
+
+    b1.place(x=750, y=bottom)
+    b3.place(x=x0, y=top)
+    b4.place(x=x1, y=top)
+    b5.place(x=x2, y=top)
+    b6.place(x=x0, y=middle)
+    b7.place(x=x1, y=middle)
+    b8.place(x=x2, y=middle)
+    b9.place(x=750, y=top)
+    b10.place(x=900, y=bottom)
+    b11.place(x=x0, y=bottom)
+    b12.place(x=x1, y=bottom)
+    b13.place(x=750, y=middle)
 
     mainwin.mainloop()
 
