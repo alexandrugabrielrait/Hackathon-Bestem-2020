@@ -1,12 +1,16 @@
 import nltk
 from nltk import WordNetLemmatizer
 from nltk.corpus import wordnet, stopwords
+import matplotlib.pyplot as plt
 
-from src.simplify_functions import simplify
 
 IN = "../inputs/github.txt"
 OUT = "../outputs/github.txt"
-text = open(IN).read().lower()
+text2 = open(IN).read().lower()
+
+MIN_FACTOR = 0.03
+MAX = 15
+
 
 def get_wordnet_pos(word):
     tag = nltk.pos_tag([word])[0][1][0].upper()
@@ -18,17 +22,14 @@ def get_wordnet_pos(word):
     return tag_dict.get(tag, wordnet.NOUN)
 
 
-def main_t2():
+def word_statistics(text):
     lemmatizer = WordNetLemmatizer()
     stop_words = set(stopwords.words("english"))
-    print("SW: " + str(stop_words))
-    words = nltk.word_tokenize(text)
+    # words = nltk.word_tokenize(text)
     lem_words = [lemmatizer.lemmatize(w, get_wordnet_pos(w)) for w in nltk.word_tokenize(text) if w.__len__() > 1]
 
-    without_stop_words = [word for word in lem_words if not word in stop_words] # if not word.isalpha() and word.isnumeric()
-    # print(without_stop_words)
-
-    ss = simplify("a")
+    without_stop_words = [word for word in lem_words if
+                          not word in stop_words]  # if not word.isalpha() and word.isnumeric()
 
 
     statistic_dict = {}
@@ -39,13 +40,32 @@ def main_t2():
             statistic_dict[word] = 1
 
     out_file = open(OUT, "w")
-    for w in sorted(statistic_dict, key=statistic_dict.get, reverse=True):
+
+    sorted_stat = sorted(statistic_dict, key=statistic_dict.get, reverse=True)
+
+    values = []
+    keys = []
+
+    # min_limit = sorted_stat.__len__() * MIN_FACTOR
+    if MAX > sorted_stat.__len__() / 2:
+        max = int(sorted_stat.__len__() / 2)
+    else:
+        max = MAX
+    for w in sorted_stat[0:max]:
+        # if statistic_dict[w] > min_limit:
+            values.append(w)
+            keys.append(statistic_dict[w])
+
+    plt.bar(values, keys)
+    plt.xticks(rotation=45)
+    plt.gcf().subplots_adjust(bottom=0.2)
+    plt.show()
+
+    for w in sorted_stat:
         out_file.write(w + " " + str(statistic_dict[w]) + "\n")
 
     out_file.close()
 
-    # for word, num in sorted statistic_dict.items():
-    #     print(word + " : " + str(num))
 
-if __name__ == "__main__":
-    main_t2()
+# if __name__ == "__main__":
+    # word_statistics(text2)
