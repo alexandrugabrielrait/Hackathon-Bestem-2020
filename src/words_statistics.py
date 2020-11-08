@@ -4,12 +4,12 @@ from nltk.corpus import wordnet, stopwords
 import matplotlib.pyplot as plt
 
 
-IN = "../inputs/github.txt"
-OUT = "../outputs/github.txt"
-text2 = open(IN).read().lower()
+#IN = "../inputs/github.txt"
+#OUT = "../outputs/github.txt"
+#text2 = open(IN).read().lower()
 
-MIN_FACTOR = 0.03
-MAX = 15
+#MIN_FACTOR = 0.03
+MAX = 20
 
 
 def get_wordnet_pos(word):
@@ -26,7 +26,7 @@ def word_statistics(text):
     lemmatizer = WordNetLemmatizer()
     stop_words = set(stopwords.words("english"))
     # words = nltk.word_tokenize(text)
-    lem_words = [lemmatizer.lemmatize(w, get_wordnet_pos(w)) for w in nltk.word_tokenize(text) if w.__len__() > 1]
+    lem_words = [lemmatizer.lemmatize(w, get_wordnet_pos(w)) for w in nltk.word_tokenize(text.lower()) if w.__len__() > 1]
 
     without_stop_words = [word for word in lem_words if
                           not word in stop_words]  # if not word.isalpha() and word.isnumeric()
@@ -39,8 +39,6 @@ def word_statistics(text):
         else:
             statistic_dict[word] = 1
 
-    out_file = open(OUT, "w")
-
     sorted_stat = sorted(statistic_dict, key=statistic_dict.get, reverse=True)
 
     values = []
@@ -52,20 +50,10 @@ def word_statistics(text):
     else:
         max = MAX
     for w in sorted_stat[0:max]:
-        # if statistic_dict[w] > min_limit:
             values.append(w)
             keys.append(statistic_dict[w])
 
     plt.bar(values, keys)
-    plt.xticks(rotation=45)
-    plt.gcf().subplots_adjust(bottom=0.2)
+    plt.xticks(rotation=90)
+    plt.gcf().subplots_adjust(bottom=0.25)
     plt.show()
-
-    for w in sorted_stat:
-        out_file.write(w + " " + str(statistic_dict[w]) + "\n")
-
-    out_file.close()
-
-
-# if __name__ == "__main__":
-    # word_statistics(text2)
