@@ -67,6 +67,8 @@ def find_subject(parsed_text):
 '''
 def get_subject_type(parsed_text):
     subject = find_subject(parsed_text)
+    if subject == None:
+        return SubjectType.REST
     if is_synonym(subject, client_synonyms):
         return SubjectType.CLIENT
     if is_synonym(subject, get_company_synonyms()):

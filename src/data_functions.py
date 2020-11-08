@@ -31,6 +31,7 @@ def find_definitions(text):
                     in_quotes = not in_quotes
                     if not in_quotes and current_string != "" and current_string not in definitions:
                         definitions.append(current_string)
+                        current_string = ""
                 elif in_quotes:
                     current_string = current_string.__add__(c)
             if in_quotes:
