@@ -9,7 +9,6 @@ except:
 def main():
     file_input = open("input.txt", "r", encoding='utf-8')
     sentences = find_sentences(utf8_to_ascii(file_input.read()))
-    sets = find_sets(sentences)
     print(find_showable_list([True, False, True, True, True, False], sentences))
 
 if __name__ == "__main__":
