@@ -21,7 +21,7 @@ show_rest = True
 show_definitions = False
 input_mode = True
 save = ""
-text_input = "Input EULA here"
+text_input = "Input text here"
 text_result = "Results"
 
 search_list = list()
