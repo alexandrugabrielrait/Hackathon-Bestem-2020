@@ -15,6 +15,7 @@ def simplify(sentence):
     new_words = list()
     n = words.__len__()
     i = 0
+    found = False
     while i < n:
         new_words.append(words[i])
         if i != 0 and words[i][0].isupper() and not words[i].isupper():

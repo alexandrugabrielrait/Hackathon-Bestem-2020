@@ -55,7 +55,7 @@ def find_sets(sentences):
     sets_by_predicate = [set() for i in range(len(PredicateType))]
     
     for sentence in sentences:
-        parsed_text = nlp(simplify(sentence))
+        parsed_text = nlp(sentence)
         sets_by_subject[int(get_subject_type(parsed_text).value)].add(sentence)
         sets_by_predicate[int(get_predicate_type(parsed_text).value)].add(sentence)
     return (sets_by_subject, sets_by_predicate)

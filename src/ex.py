@@ -2,8 +2,18 @@ import tkinter as tk
 from tkinter import *
 from tkinter.scrolledtext import ScrolledText
 import sqlite3
+<<<<<<< Updated upstream
 from string_functions import utf8_to_ascii
 from pseudo_data_functions import *
+=======
+try:
+	from src.string_functions import utf8_to_ascii
+	from src.data_functions import *
+except:
+	from string_functions import utf8_to_ascii
+	from data_functions import *
+from tkinter import messagebox as MessageBox
+>>>>>>> Stashed changes
 
 show_client = True
 show_company = True
