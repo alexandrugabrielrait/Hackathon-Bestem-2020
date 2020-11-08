@@ -14,9 +14,9 @@ except:
 
 def main():
     print("hi2")
-    file_input = open("input.txt", "r")
+    file_input = open("input.txt", "r", encoding='utf-8')
     sentences = []
-    full_text = string_functions.cp1252_to_ascii(file_input.read())
+    full_text = string_functions.utf8_to_ascii(file_input.read())
     print("def", string_functions.find_definitions(full_text))
     for line in full_text.splitlines():
         sentences.extend(nltk.sent_tokenize(line))
