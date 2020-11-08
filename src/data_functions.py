@@ -1,4 +1,5 @@
 import nltk
+import spacy
 try:
     import src.sentence_functions
     import src.reader
@@ -9,6 +10,11 @@ except:
     import reader
     from definitions import SubjectType, PredicateType
     from sentence_functions import *
+
+nlp = spacy.load('en')
+
+def set_company_name(name):
+    reader.company_name = name.lower()
 
 def find_definitions(text):
     definitions = []
@@ -27,7 +33,7 @@ def find_definitions(text):
                 current_string = current_string.__add__(" ")
     return definitions
 
-def find_sets(text):
+def find_sentences(text):
     sentences = []
     for line in text.splitlines():
         sentences.extend(nltk.sent_tokenize(line))
@@ -38,12 +44,13 @@ def find_sets(text):
     print(tagged[0:6])
     entities = nltk.chunk.ne_chunk(tagged)
     print(entities)
-    nlp = spacy.load('en')
 
-    reader.company_name = "Apple".lower()
+    return sentences
+
+def find_sets(sentences):
     sets_by_subject = [set() for i in range(len(SubjectType))]
     sets_by_predicate = [set() for i in range(len(PredicateType))]
-
+    
     for sentence in sentences:
         parsed_text = nlp(simplify(sentence))
         print(nltk.pos_tag(nltk.word_tokenize(sentence_functions.simplify(sentence))))
@@ -59,3 +66,24 @@ def find_sets(text):
 
     print((sets_by_subject, sets_by_predicate))
     return (sets_by_subject, sets_by_predicate)
+
+def apply_filters(filters, sets):
+    subject_set = set()
+    predicate_set = set()
+    for i in range(len(SubjectType)):
+        if filters[i]:
+            subject_set.update(sets[0][i])
+    for i in range(len(PredicateType)):
+        if filters[len(SubjectType) + i]:
+            predicate_set.update(sets[1][i])
+    return subject_set.intersection(predicate_set)
+
+def find_showable_list(filters, sentences):
+    showable_list = []
+    sets = find_sets(sentences)
+    showable_set = apply_filters(filters, sets)
+    for sentence in sentences:
+        if sentence in showable_set and not sentence in showable_list:
+            showable_list.append(sentence)
+    return showable_list
+
