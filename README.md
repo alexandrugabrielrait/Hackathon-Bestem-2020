@@ -7,6 +7,6 @@
  Features:
  - Can filter sentences by subject (user, company or others).
  - Can filter sentences by predicate (permissive, neutral or obligatory).
- - Can show terms defined in the agreemen.
+ - Can show terms defined in the agreement.
  - Can show graph with most used words (Words like "the" and "a" are ignored. Verbs will be listed as their infinitive; Eg: "am", "are" and "is" will be shown as "be").
  - Has a built-in search function that accepts spaces and other special characters.
