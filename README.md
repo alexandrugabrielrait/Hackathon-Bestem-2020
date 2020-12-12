@@ -1,6 +1,6 @@
 # Hackathon-Bestem-2020
 ## Team Hack & S/ash - Project Name: Terms and Conditions Inspector
- Hackathon Bestem 7-8 November 2020
+ Hackathon BESTEM'20 7-8 November 2020 - marked 106/180 points
  
  This program can be used to inspect either a Terms and Conditions Agreement or an End-User License Agreement.
  
